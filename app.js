@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
@@ -6,10 +8,12 @@ const userRoutes = require('./routes/users');
 const adminRoutes = require('./routes/admin');
 const cookieParser = require('cookie-parser');
 
-const dbUri = process.env.MONGO_URI || 'mongodb://localhost:27017/mygym';
+const dbUri = process.env.MONGO_URI;
+const port = process.env.APP_PORT || 3000;
+
 mongoose.connect(dbUri)
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.log('MongoDB connection error:', err));
+.then(() => console.log('MongoDB connected'))
+.catch(err => console.log('MongoDB connection error:', err));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -34,6 +38,6 @@ app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/admin', adminRoutes);
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 });

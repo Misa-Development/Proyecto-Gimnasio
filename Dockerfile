@@ -13,8 +13,12 @@ RUN npm install
 # Copia el resto de los archivos de tu aplicación
 COPY . .
 
+# Añade wait-for-it
+RUN curl -o /app/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
+RUN chmod +x /app/wait-for-it.sh
+
 # Expone el puerto en el que tu aplicación estará corriendo
 EXPOSE 3000
 
 # Define el comando para ejecutar tu aplicación
-CMD ["node", "app.js"]
+CMD ["/app/wait-for-it.sh", "mongo:27017", "--", "node", "app.js"]
