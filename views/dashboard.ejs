@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard del Gimnasio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Incluye aquí el CSS que te proporcioné anteriormente */
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
+        .glow-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3em;
+            color: #e4e01a;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 0 0 5px #e4e01a, 0 0 10px #e4e01a, 0 0 20px #e4e01a, 0 0 40px #e4e01a, 0 0 80px #e4e01a;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mySidebar" class="sidebar"> <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <h2>Menú</h2>
+        <ul>
+            <li><a href="/users/dashboard"><i class="fas fa-tachometer-alt"></i> Panel de Control</a></li>
+            <li><a href="/users/expenses"><i class="fas fa-cash-register"></i> Caja</a></li>
+            <li><a href="/auth/logout"><i class="fas fa-sign-out-alt"></i> Salir</a></li>
+        </ul>
+    </div>
+    <div id="main"> <button class="openbtn" onclick="openNav()">☰</button>
+        <!-- Aquí va el resto de tu contenido -->
+        <div class="container">
+            <div class="header">
+                <h1 id="gymName" contenteditable="true" onblur="saveGymName()">
+                    <%= gymName %>
+                </h1>
+                <!-- Resto del contenido -->
+            </div>
+
+        </div>
+
+    </div>
+
+    <br></br>
+    <!-- Input de búsqueda -->
+    <input type="text" id="searchInput" class="search-input" onkeyup="searchClients()" placeholder="Buscar clientes...">
+    <h2 class="clientes">Clientes del Gimnasio <button onclick="window.location.href='/users/add-client'">+</button>
+    </h2>
+    <!-- Tabla de clientes -->
+    <!-- Tabla de clientes -->
+    <table id="client-table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Sexo</th>
+                <th>Edad</th>
+                <th>Fecha de Vencimiento</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% clients.forEach(function(client) { %>
+                <tr class="<%= getMembershipClass(client.membershipEnd) %>">
+                    <td>
+                        <%= client.name %>
+                    </td>
+                    <td style="background-color: #e4ae1a;">
+                        <%= client.surname %>
+                    </td>
+                    <td style="background-color: #e4ae1a;">
+                        <%= client.gender %>
+                    </td>
+                    <td style="background-color: #e4ae1a;">
+                        <%= client.age %>
+                    </td>
+                    <td style="background-color: #e4ae1a;">
+                        <%= new Date(client.membershipEnd).toLocaleDateString() %>
+                    </td>
+                    <td>
+                        <button onclick="showClientDetails('<%= client._id %>')">Ver Detalles</button>
+                    </td>
+                </tr>
+                <% }) %>
+        </tbody>
+    </table>
+
+
+
+    </div>
+
+    <div id="client-details" class="popup">
+        <h2>Detalles del Cliente</h2>
+        <p>Nombre: <span id="client-name"></span></p>
+        <p>Apellido: <span id="client-surname"></span></p>
+        <p>Sexo: <span id="client-gender"></span></p>
+        <p>Edad: <span id="client-age"></span></p>
+        <p>Email: <span id="client-email"></span></p>
+        <p>Enfermedades: <span id="client-diseases"></span></p>
+        <p>Apta Médica: <input type="checkbox" id="client-medical" disabled></p>
+        <p>Inicio de Membresía: <span id="client-start"></span></p>
+        <p>Vencimiento de Membresía: <span id="client-end"></span></p>
+        <button onclick="closeDetails()">Cerrar</button>
+        <button id="delete-client-button" onclick="confirmDeleteClient()">Eliminar Cliente</button>
+
+    </div>
+
+
+    <script>
+        function openNav() {
+            document.getElementById("mySidebar").style.left = "0";
+            document.getElementById("main").style.marginLeft = "250px";
+            document.querySelector(".openbtn").classList.add("open");
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.left = "-250px";
+            document.getElementById("main").style.marginLeft = "0";
+            document.querySelector(".openbtn").classList.remove("open");
+        }
+
+        function saveGymName() {
+            const gymName = document.getElementById('gymName').textContent;
+            fetch('/users/update-gym-name', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ gymName })
+            })
+                .then(response => response.text())
+                .then(data => {
+                    console.log('Nombre del gimnasio guardado:', data);  // Mensaje de depuración
+                })
+                .catch(error => {
+                    console.error('Error al guardar el nombre del gimnasio:', error);  // Mensaje de depuración
+                });
+        }
+
+
+        function searchClients() {
+            const input = document.getElementById('searchInput').value.toUpperCase();
+            const table = document.getElementById('client-table');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < tr.length; i++) {
+                const td = tr[i].getElementsByTagName('td')[0];
+                if (td) {
+                    const txtValue = td.textContent || td.innerText;
+                    tr[i].style.display = txtValue.toUpperCase().indexOf(input) > -1 ? "" : "none";
+                }
+            }
+        }
+        let currentClientId;
+
+        function showClientDetails(clientId) {
+            console.log('Fetching details for client:', clientId);  // Mensaje de depuración
+            fetch('/users/client/' + clientId)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Client details received:', data);  // Mensaje de depuración
+                    document.getElementById('client-name').textContent = data.name;
+                    document.getElementById('client-surname').textContent = data.surname;
+                    document.getElementById('client-gender').textContent = data.gender;
+                    document.getElementById('client-age').textContent = data.age;
+                    document.getElementById('client-email').textContent = data.email;
+                    document.getElementById('client-diseases').textContent = data.diseases;
+                    document.getElementById('client-medical').checked = data.medicalClearance;
+                    document.getElementById('client-start').textContent = new Date(data.membershipStart).toLocaleDateString();
+                    document.getElementById('client-end').textContent = new Date(data.membershipEnd).toLocaleDateString();
+                    document.getElementById('client-details').classList.add('show');  // Añadir la clase show
+                    currentClientId = clientId;  // Almacena el ID del cliente actual
+                    console.log('Popup should now be visible');  // Mensaje de depuración
+                })
+                .catch(error => {
+                    console.error('Error fetching client details:', error);  // Mensaje de depuración
+                });
+        }
+
+        function confirmDeleteClient() {
+            if (confirm('¿Estás seguro de que quieres eliminar este cliente?')) {
+                deleteClient(currentClientId);
+            }
+        }
+
+        function deleteClient(clientId) {
+            fetch('/users/delete-client/' + clientId, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    window.location.reload();
+                });
+        }
+
+        function closeDetails() {
+            document.getElementById('client-details').classList.remove('show');  // Remover la clase show
+        }
+
+
+    </script>
+</body>
+
+</html>

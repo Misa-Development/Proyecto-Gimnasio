@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <style>
+        /* Incluye aquí el CSS que te proporcioné */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to right,#000000,#61430b, #e49d1a, #e49d1a, #e49d1a, #f5ac25, #fff34d, #f5ac25,#e49d1a, #e49d1a, #e49d1a,#6e4c0c);
+            
+            color: #e49d1a; /* Texto en color #e49d1a */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #111111; /* Fondo gris oscuro */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra sutil */
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #e49d1a;
+            color: #000000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+            outline: none;
+        }
+
+        button:hover {
+            background-color: #ffb02b; /* Color más claro al pasar el ratón */
+            transform: scale(1.05); /* Ligero aumento al pasar el ratón */
+        }
+
+        button:active {
+            transform: scale(0.95); /* Ligero decremento al hacer clic */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bienvenido a tu aplicación de Gimnasio!</h1>
+        <button type="button" onclick="window.location.href='/login'">Login</button>
+    </div>
+</body>
+</html>

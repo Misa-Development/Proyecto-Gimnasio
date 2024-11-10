@@ -1,0 +1,268 @@
+/* Estilos generales */
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(to right,#000000,#61430b, #e49d1a, #e49d1a, #e49d1a, #f5ac25, #fff34d, #f5ac25,#e49d1a, #e49d1a, #e49d1a,#6e4c0c);
+    
+    /* Fondo degradado */
+    color: #e4ae1a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+}
+
+/* Contenedor principal */
+.container {
+    text-align: center;
+    background-color: #111111;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilo del título */
+h1,
+h1.log1,
+.glow-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3em;
+    color: #e4e01a;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow:
+        0 0 5px #e49d1a,
+        0 0 10px #e49d1a,
+        0 0 20px #e49d1a,
+        0 0 40px #e49d1a,
+        0 0 80px #e49d1a;
+}
+
+/* Estilo del botón */
+button {
+    background-color: #e4ae1a;
+    color: #000000;
+    border: 1px solid #000000;
+    padding: 5px 10px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+    outline: none;
+}
+
+button:hover {
+    background-color: #a77521;
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* Estilo de las filas según su estado en la columna "Acción" */
+.expired td:last-child {
+    background-color: rgba(255, 0, 0, 0.993);
+    color: white;
+}
+
+.expiring-soon td:last-child {
+    background-color: #e4751a;
+    color: black;
+}
+
+.active td:last-child {
+    background-color: #e4ae1a;
+    color: white;
+}
+
+
+/* Detalles del cliente */
+#client-details {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #e4ae1a;
+    color:#000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+#client-details.show {
+    display: block;
+}
+
+/* Añadir clase .open para esconder el botón */
+.openbtn.open {
+    display: none;
+}
+
+/* Estilo de la barra lateral */
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    background-color: rgba(0, 0, 0, 0.8);
+    /* Fondo semitransparente */
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    z-index: 1000;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar h2 {
+    color: #e4ae1a;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    /* Tamaño de fuente más grande */
+    font-family: 'Orbitron', sans-serif;
+    /* Fuente estilizada */
+}
+
+.sidebar ul {
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar ul li {
+    padding: 10px 15px;
+}
+
+.sidebar ul li a {
+    color: #e4ae1a;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    font-size: 1.2em;
+    transition: color 0.3s;
+}
+
+.sidebar ul li a:hover {
+    color: #f1f1f1;
+    text-decoration: underline;
+}
+
+.sidebar ul li a i {
+    margin-right: 10px;
+    /* Espacio entre el icono y el texto */
+    font-size: 1.2em;
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    color: #e4ae1a;
+}
+
+/* Estilo del botón para abrir el menú */
+.openbtn {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #000000;
+    color: #e4ae1a;
+    padding: 10px 15px;
+    border: none;
+    transition: background-color 0.3s, transform 0.3s;
+    outline: none;
+}
+
+.openbtn:hover {
+    background-color: #e4ae1a;
+    color: #000000;
+    transform: scale(1.05);
+}
+
+.openbtn:active {
+    transform: scale(0.95);
+}
+
+/* Estilo del contenido principal */
+#main {
+    transition: margin-left .5s;
+    padding: 20px;
+}
+
+/* Estilo de la tabla de clientes */
+#client-table {
+    width: 100% !important;
+    /* Ajustado para ocupar toda la anchura de la página */
+    border: 2px solid #000;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #e4ae1a ;
+    border-radius: 10px;
+    /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Sombra sutil */
+}
+
+
+#client-table th,
+#client-table td {
+    border: 1px solid #000;
+    padding: 5px;
+    text-align: center;
+    color: #000;
+    /* Letras negras */
+}
+
+#client-table th {
+    background:linear-gradient(#96670f, #e49d1a,#96670f);
+    color: #000000;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#client-table tr:hover {
+    background-color: #7c540e;
+    /* Fondo al pasar el ratón */
+}
+
+/* Estilo del buscador */
+#searchInput,
+.search-input {
+    width: 90% !important;
+    padding: 10px !important;
+    margin: 20px 0 !important;
+    font-size: 1em !important;
+    border-radius: 5px !important;
+    border: 2px solid #000000 !important;
+    outline: none !important;
+    background-color: #000 !important;
+    /* Fondo negro */
+    color: #000000 !important;
+    /* Texto amarillo */
+    transition: border-color 0.3s !important;
+    background: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23e49d1a"><path d="M9 2a7 7 0 104.49 12.35l5.92 5.93 1.41-1.42-5.93-5.92A7 7 0 009 2zm0 2a5 5 0 110 10 5 5 0 010-10z"></path></svg>') no-repeat right 10px center !important;
+    padding-right: 40px !important;
+    /* Espacio para la lupa */
+}
+
+#searchInput::placeholder,
+.search-input::placeholder {
+    color: #e49d1a !important;
+    /* Color del texto del placeholder en amarillo */
+}
+
+#searchInput:focus,
+.search-input:focus {
+    border-color: #000000 !important;
+}
+
+.clientes {
+    font-family: 'Orbitron', sans-serif;
+    color: #000000;
+}

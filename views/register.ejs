@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to right,#000000, #e49d1a, #ffd479, #e49d1a,#e49d1a,#000000);
+            /* Fondo negro */
+            color: #e49d1a;
+            /* Texto en color #e49d1a */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        input{
+            width: 330px !important;
+            height: 30px;
+            margin: 10px;
+            font-size: 18px;
+        }
+        /* Contenedor principal */
+        .container {
+            width: 630px !important;
+            font-size: 1.5em;
+            text-align: center;
+            background-color: #111111;
+            /* Fondo gris oscuro */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            /* Sombra sutil */
+        }
+
+        /* Estilo del título */
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        /* Estilo del botón */
+        button {
+            background-color: #e49d1a;
+            color: #000000;
+            border: 3px solid #000000;
+            padding: 10px 20px;
+            /* Reducir el padding */
+            font-size: 20px;
+            /* Reducir el tamaño de fuente */
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+            outline: none;
+        }
+
+        /* Efectos de hover y active para el botón */
+        button:hover {
+            background-color: #ffb02b;
+            /* Color más claro al pasar el ratón */
+            transform: scale(1.05);
+            /* Ligero aumento al pasar el ratón */
+        }
+
+        button:active {
+            transform: scale(0.95);
+            /* Ligero decremento al hacer clic */
+        }
+
+        /* Estilo del modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Fondo negro semitransparente */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .ventanadelprogramagym {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .ventanadelprogramagym-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+
+        .ventanadelprogramagym .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .ventanadelprogramagym .close:hover,
+        .ventanadelprogramagym .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Registro de Usuarios</h1>
+        <form id="register-form">
+            <input type="text" name="name" placeholder="Nombre" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Contraseña" required>
+            <br></br>
+            <button type="submit">Registrar</button>
+            <button type="button" onclick="window.location.href='/login'">Ir a Login</button>
+        </form>
+    </div>
+
+    <!-- El Modal -->
+    <div id="ventanadelprogramagym" class="ventanadelprogramagym">
+        <div class="ventanadelprogramagym-content">
+            <span class="close">&times;</span>
+            <p id="error-message">El usuario ya existe</p>
+        </div>
+    </div>
+
+
+    <script>
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.querySelector('input[name="name"]').value;
+            const email = document.querySelector('input[name="email"]').value;
+            const password = document.querySelector('input[name="password"]').value;
+
+            try {
+                const response = await fetch('/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, email, password })
+                });
+
+                const result = await response.json();
+                if (response.status === 400) {
+                    document.getElementById('error-message').innerText = result.error; // Muestra el mensaje de error
+                    document.getElementById('ventanadelprogramagym').style.display = 'block'; // Muestra el modal
+                } else if (response.status === 200) {
+                    document.getElementById('error-message').innerText = result.message; // Muestra el mensaje de confirmación
+                    document.getElementById('ventanadelprogramagym').style.display = 'block'; // Muestra el modal
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        // Cierra el modal al hacer clic en el botón de cierre
+        document.querySelector('.close').onclick = function () {
+            document.getElementById('ventanadelprogramagym').style.display = 'none';
+        }
+
+        // Cierra el modal al hacer clic fuera del contenido del modal
+        window.onclick = function (event) {
+            if (event.target == document.getElementById('ventanadelprogramagym')) {
+                document.getElementById('ventanadelprogramagym').style.display = 'none';
+            }
+        }
+
+    </script>
+</body>
+
+</html>

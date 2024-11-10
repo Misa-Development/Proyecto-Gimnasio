@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Cliente</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(to top,#000000,#61430b, #e49d1a, #e49d1a, #e49d1a, #f5ac25, #fff34d, #f5ac25,#e49d1a, #e49d1a, #e49d1a,#6e4c0c);
+            
+            color: #e49d1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Contenedor principal */
+        .container {
+            text-align: center;
+            background-color: #111111;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Estilo del título */
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3em;
+            /* Reducir el tamaño del título */
+            margin-bottom: 15px;
+            /* Ajustar el margen inferior */
+        }
+
+        /* Estilo de los inputs y select */
+        input,
+        select {
+            width: auto;
+            padding: 5px;
+            /* Reducir el padding */
+            margin: 2px 6px;
+            /* Ajustar el margen */
+            border-radius: 5px;
+            border: 3px solid #000000;
+            background-color: #ffffff;
+            color: #000000;
+            outline: none;
+            font-size: 0.9em;
+            /* Reducir el tamaño de fuente */
+        }
+
+        /* Estilo del checkbox y su label */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 8px 0;
+            /* Ajustar el margen */
+        }
+
+        .checkbox-container input {
+            margin-left: 10px;
+        }
+
+        /* Estilo del botón */
+        button {
+            background-color: #e49d1a;
+            color: #000000;
+            border: 3px solid #000000;
+            padding: 10px 20px;
+            /* Reducir el padding */
+            font-size: 0.9em;
+            /* Reducir el tamaño de fuente */
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+            outline: none;
+        }
+
+        /* Efectos de hover y active para el botón */
+        button:hover {
+            background-color: #ffb02b;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Agregar Cliente</h2>
+        <form action="/users/add" method="POST">
+            <input type="text" name="name" placeholder="Nombre" required>
+            <input type="text" name="surname" placeholder="Apellido" required>
+            <br></br>
+            <input type="number" name="dni" placeholder="N° Documento" required>
+            <input type="number" name="age" placeholder="Edad" required>
+            <br></br>
+            <input type="email" name="email" placeholder="Email" required>
+            <br></br>
+            <select name="gender" required>
+                <option value="">Seleccione el Sexo</option>
+                <option value="Male">Masculino</option>
+                <option value="Female">Femenino</option>
+                <option value="Other">Otro</option>
+            </select>
+            <input type="text" name="diseases" placeholder="Enfermedades">
+            <div class="checkbox-container">
+                <label for="medicalClearance">Apta Médica:</label>
+                <input type="checkbox" name="medicalClearance" id="medicalClearance">
+            </div>
+            <p>Inicio de Membresía</p>
+            <input type="date" name="membershipStart" placeholder="Inicio de Membresía" required>
+            <p>Vencimiento de Membresía</p>
+            <input type="date" name="membershipEnd" placeholder="Vencimiento de Membresía" required>
+            <br></br>
+            <button type="submit">Agregar Cliente</button>
+        </form>
+    </div>
+</body>
+
+</html>
