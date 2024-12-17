@@ -2,33 +2,43 @@ const express = require('express');
 const router = express.Router();
 const Client = require('../models/Client');
 const Expense = require('../models/Expense');
-const User = require('../models/User');
 const Gym = require('../models/Gym');
 const auth = require('../middlewares/auth');
 
 // Ruta para mostrar el formulario de agregar cliente
-router.get('/add-client', auth, (req, res) => {
-    res.render('add-client');
+router.get('/add-client', auth, async (req, res) => {
+    const gym = await Gym.findOne();
+    res.render('add-client', {
+        gymName: gym ? gym.name : 'Tu Gimnasio',
+        backgroundColors: gym ? gym.backgroundColors : '#000000, #61430b, #e49d1a',
+        gymImage: gym ? gym.image : '/images/espartano.gif'
+    });
 });
 
 // Ruta para mostrar el dashboard con el listado de clientes
 router.get('/dashboard', auth, async (req, res) => {
     const clients = await Client.find({ userId: req.user._id });  // Filtrar clientes por userId
-    const gym = await Gym.findOne({ userId: req.user._id });const getMembershipClass = (membershipEnd) => {
-        const endDate = new Date(membershipEnd);
-        const now = new Date();
-        const oneWeekFromNow = new Date();
-        oneWeekFromNow.setDate(now.getDate() + 7);
+    const gym = await Gym.findOne();
+    res.render('dashboard', {
+        clients,
+        gymName: gym ? gym.name : 'Tu Gimnasio',
+        backgroundColors: gym ? gym.backgroundColors : '#000000, #61430b, #e49d1a',
+        gymImage: gym ? gym.image : '/images/espartano.gif',
+        getMembershipClass: (membershipEnd) => {
+            const endDate = new Date(membershipEnd);
+            const now = new Date();
+            const oneWeekFromNow = new Date();
+            oneWeekFromNow.setDate(now.getDate() + 7);
 
-        if (endDate < now) {
-            return 'expired';
-        } else if (endDate < oneWeekFromNow) {
-            return 'expiring-soon';
-        } else {
-            return 'active';
+            if (endDate < now) {
+                return 'expired';
+            } else if (endDate < oneWeekFromNow) {
+                return 'expiring-soon';
+            } else {
+                return 'active';
+            }
         }
-    };
-    res.render('dashboard', { clients, gymName: gym ? gym.name : 'Nombre del Gimnasio', getMembershipClass });
+    });
 });
 
 // Ruta para agregar un nuevo cliente
@@ -79,27 +89,13 @@ router.post('/update-gym-name', auth, async (req, res) => {
 // Ruta para mostrar la vista de caja
 router.get('/expenses', auth, async (req, res) => {
     const expenses = await Expense.find({ userId: req.user._id });
-    res.render('expenses', { expenses });
-});
-
-// Ruta para registrar un nuevo gasto
-router.post('/expenses', auth, async (req, res) => {
-    const { description, amount, date } = req.body;
-    // Guardar el gasto en la base de datos
-    // Ejemplo:
-    // const expense = new Expense({ description, amount, date });
-    // await expense.save();
-    res.redirect('/users/expenses');
-});
-
-// Ruta para eliminar un cliente
-router.delete('/delete-client/:id', auth, async (req, res) => {
-    try {
-        await Client.findByIdAndDelete(req.params.id);
-        res.json({ message: 'Cliente eliminado con éxito' });
-    } catch (error) {
-        res.status(500).json({ message: 'Error al eliminar el cliente' });
-    }
+    const gym = await Gym.findOne();
+    res.render('expenses', {
+        gymName: gym ? gym.name : 'Tu Gimnasio',
+        backgroundColors: gym ? gym.backgroundColors : '#000000, #61430b, #e49d1a',
+        gymImage: gym ? gym.image : '/images/espartano.gif',
+        expenses
+    });
 });
 
 module.exports = router;

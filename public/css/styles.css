@@ -1,10 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
 /* Estilos generales */
 body {
     font-family: 'Roboto', sans-serif;
-    background: linear-gradient(to right,#000000,#61430b, #e49d1a, #e49d1a, #e49d1a, #f5ac25, #fff34d, #f5ac25,#e49d1a, #e49d1a, #e49d1a,#6e4c0c);
-    
-    /* Fondo degradado */
-    color: #e4ae1a;
+    background: linear-gradient(to right, #000000, #61430b, #e49d1a, #e49d1a, #e49d1a, #f5ac25, #fff34d, #f5ac25, #e49d1a, #e49d1a, #e49d1a, #6e4c0c);
+    color: #dd2e2e;/*este es el color del titulo*/
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -23,23 +22,19 @@ body {
 /* Estilo del título */
 h1,
 h1.log1,
-.glow-title {
+.colororiginal{
+}
+#glow-title {
     font-family: 'Orbitron', sans-serif;
     font-size: 3em;
-    color: #e4e01a;
     text-align: center;
     margin-bottom: 20px;
-    text-shadow:
-        0 0 5px #e49d1a,
-        0 0 10px #e49d1a,
-        0 0 20px #e49d1a,
-        0 0 40px #e49d1a,
-        0 0 80px #e49d1a;
 }
+
 
 /* Estilo del botón */
 button {
-    background-color: #e4ae1a;
+    background-color: #ffffff;
     color: #000000;
     border: 1px solid #000000;
     padding: 5px 10px;
@@ -51,7 +46,7 @@ button {
 }
 
 button:hover {
-    background-color: #a77521;
+    background-color: #ffffff;
     transform: scale(1.05);
 }
 
@@ -71,7 +66,7 @@ button:active {
 }
 
 .active td:last-child {
-    background-color: #e4ae1a;
+    background: linear-gradient(#d4d4d4, #898989, #f7f7f7);
     color: white;
 }
 
@@ -84,13 +79,14 @@ button:active {
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 20px;
-    background-color: #e4ae1a;
-    color:#000;
+    background-color: #b8b8b8;
+    color: #000;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     z-index: 1000;
 }
 
 #client-details.show {
+    background: linear-gradient(#d4d4d4, #898989, #434343);
     display: block;
 }
 
@@ -116,7 +112,6 @@ button:active {
 }
 
 .sidebar h2 {
-    color: #e4ae1a;
     text-align: center;
     margin-bottom: 20px;
     font-size: 1.5em;
@@ -135,7 +130,7 @@ button:active {
 }
 
 .sidebar ul li a {
-    color: #e4ae1a;
+    color: #ffffff;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -160,7 +155,6 @@ button:active {
     right: 25px;
     font-size: 36px;
     margin-left: 50px;
-    color: #e4ae1a;
 }
 
 /* Estilo del botón para abrir el menú */
@@ -171,7 +165,7 @@ button:active {
     font-size: 20px;
     cursor: pointer;
     background-color: #000000;
-    color: #e4ae1a;
+    color: #ffffff;
     padding: 10px 15px;
     border: none;
     transition: background-color 0.3s, transform 0.3s;
@@ -179,7 +173,7 @@ button:active {
 }
 
 .openbtn:hover {
-    background-color: #e4ae1a;
+    background-color: #ffffff;
     color: #000000;
     transform: scale(1.05);
 }
@@ -201,7 +195,7 @@ button:active {
     border: 2px solid #000;
     border-collapse: collapse;
     margin: 20px 0;
-    background-color: #e4ae1a ;
+    background: linear-gradient(#d4d4d4, #898989, #434343);
     border-radius: 10px;
     /* Bordes redondeados */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -215,11 +209,12 @@ button:active {
     padding: 5px;
     text-align: center;
     color: #000;
+    
     /* Letras negras */
 }
 
 #client-table th {
-    background:linear-gradient(#96670f, #e49d1a,#96670f);
+    background: linear-gradient(#d4d4d4, #898989, #434343);
     color: #000000;
     font-weight: bold;
     text-transform: uppercase;
@@ -227,7 +222,7 @@ button:active {
 }
 
 #client-table tr:hover {
-    background-color: #7c540e;
+    background: linear-gradient(#d4d4d4, #898989, #434343);
     /* Fondo al pasar el ratón */
 }
 
@@ -253,7 +248,7 @@ button:active {
 
 #searchInput::placeholder,
 .search-input::placeholder {
-    color: #e49d1a !important;
+    color: #ffffff !important;
     /* Color del texto del placeholder en amarillo */
 }
 

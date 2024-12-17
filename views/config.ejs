@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to right, #000000, #e49d1a, #ffd479, #e49d1a, #e49d1a, #000000);
+            color: #e49d1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        input {
+            width: 330px !important;
+            height: 30px;
+            margin: 10px;
+            font-size: 18px;
+        }
+
+        .color-picker {
+            width: 100px !important;
+            height: 50px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .container {
+            width: 630px !important;
+            font-size: 1.5em;
+            text-align: center;
+            background-color: #111111;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #e49d1a;
+            color: #000000;
+            border: 3px solid #000000;
+            padding: 10px 20px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+            outline: none;
+        }
+
+        button:hover {
+            background-color: #ffb02b;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Configuración del Gimnasio</h1>
+        <form action="/config/update" method="POST" enctype="multipart/form-data">
+            <div>
+                <label for="gymName">Nombre del Gimnasio:</label>
+                <input type="text" id="gymName" name="gymName" value="<%= gymName %>">
+            </div>
+
+            <div>
+                <label for="titleColor">Color del Título:</label>
+                <input type="color" id="titleColor" name="titleColor" class="color-picker" value="<%= titleColor %>">
+            </div>
+
+
+            <div>
+                <label for="color1">Color 1:</label>
+                <input type="color" id="color1" name="color1" class="color-picker" value="#000000">
+            </div>
+            <div>
+                <label for="color2">Color 2:</label>
+                <input type="color" id="color2" name="color2" class="color-picker" value="#61430b">
+            </div>
+            <div>
+                <label for="color3">Color 3:</label>
+                <input type="color" id="color3" name="color3" class="color-picker" value="#e49d1a">
+            </div>
+            <div>
+                <label for="gymImage">Imagen del Gimnasio:</label>
+                <input type="file" id="gymImage" name="gymImage">
+            </div>
+            <br></br>
+            <input type="hidden" id="backgroundColors" name="backgroundColors">
+            <button type="submit">Guardar Cambios</button>
+            <button type="button" onclick="window.location.href='/dashboard'">Cancelar</button>
+        </form>
+    </div>
+
+    <script>
+        // Inicializar los valores de los selectores de color
+        document.getElementById('titleColor').value = '<%= titleColor %>';
+
+        const bgColors = '<%= (backgroundColors || "#000000, #61430b, #e49d1a") %>'.split(",");
+
+        if (bgColors.length >= 3) {
+            document.getElementById('color1').value = bgColors[0].trim();
+            document.getElementById('color2').value = bgColors[1].trim();
+            document.getElementById('color3').value = bgColors[2].trim();
+        }
+
+        // Concatenar los colores antes de enviar el formulario
+        document.querySelector('form').addEventListener('submit', function () {
+            const titleColor = document.getElementById('titleColor').value;
+            this.appendChild(newInputHidden('titleColor', titleColor));
+
+            const color1 = document.getElementById('color1').value;
+            const color2 = document.getElementById('color2').value;
+            const color3 = document.getElementById('color3').value;
+            document.getElementById('backgroundColors').value = `${color1}, ${color2}, ${color3}`;
+        });
+
+
+        // Crear input oculto para enviar los datos del color del título 
+        function newInputHidden(name, value) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = name;
+            input.value = value;
+            return input;
+        } 
+    </script>
+</body>
+
+</html>
